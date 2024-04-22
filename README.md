@@ -1,7 +1,7 @@
 # WacChatAPI
 
 ## Descripción
-Este proyecto es una aplicación Django Rest Framework para [describir tu proyecto aquí].
+Este proyecto es una aplicación Django Rest Framework para el plugin WacChat-Plugin.
 
 ## Instalación
 1. Clona el repositorio:
