@@ -70,22 +70,41 @@ class Chat(APIView):
       matches = response['matches']
       # Initialize an empty array to store metadata values
       metadata_values = []
-
+      print("Pinecone response metadata:")
+      print(matches[0]['metadata'])
       for match in matches:
+          print(match['metadata'])
           if match['metadata']:
                   metadata_values.append(match['metadata'])
-
+      
+      user_last_messages= ""
+      user_current_message= ""
+    
+      for message in messagesCliente:
+          if message['role'] == "user":
+                  user_last_messages+=message['content']+", "
+          
+      
+      #print("Pinecone response:")
+      #print(metadata_values)
       messagesAPI=[
           {
             "role": "system", 
             "content": str(openai_wac_chat_promp)
           },
           {
-            "role": "user",
+            "role": "assistant",
             "content":str(metadata_values),
           },
+          {
+            "role": "user",
+            "content":"mensaje del usuario: "+str(user_content) +" y estos son los ultimos mensajes: "+str(user_last_messages) ,
+          },
+
       ]
-      messagesAPI += messagesCliente
+      print("USER DATA: ")
+      print(user_content)
+
       chat_completion = client.chat.completions.create(
       messages=messagesAPI,
       model="gpt-3.5-turbo",

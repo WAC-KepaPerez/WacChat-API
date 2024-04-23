@@ -132,14 +132,21 @@ class SubirPostExcel(APIView):
       #get json
       try:
           df = pd.read_excel(excel_file)
-          json_data = df.to_json(orient='records',force_ascii=False)
-        
-          modified_string = json_data.replace("\\", "")
+          df.fillna("", inplace=True)
+          #json_data = df.to_json(orient='records',force_ascii=False)
+          json_data = df.dropna(how='all').to_json(orient='records', force_ascii=False)
+          print(df)
+          #modified_string = json_data.replace("\\", "")
+          #json_data = json.loads(modified_string)
+          modified_string = json_data.replace("None", "")
           json_data = json.loads(modified_string)
           vectors=[]
+          print(json_data[0])
       except Exception as e:
                 print("An error occurred Converting excel to json:", str(e))
                 return Response({'status': "error", "error":"An error occurred Converting excel to json:"}, status=status.HTTP_400_BAD_REQUEST)
+      
+
       try:
         for row in json_data:
           postData=  str(row)
