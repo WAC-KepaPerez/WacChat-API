@@ -177,9 +177,10 @@ class SubirPostExcel(APIView):
           )
           response=indexPC.upsert(
               vectors=vectors,
-          namespace="ns1"
+              namespace="ns1"
           )
-          print(response)
+          print("METADATA: ======>"+str(row))
+          #print(response)
         return Response({'status': "succes"}, status=status.HTTP_200_OK)
       except Exception as e:
           print("An error occurred:", str(e))
